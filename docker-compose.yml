@@ -1,0 +1,49 @@
+version: "3.3"
+services:
+  shellcode:
+    container_name: shellcode
+    build:
+      context: Problem
+      args:
+        IMAGE: ubuntu:18.04
+        USER: shellcode
+        EXEC: shellcode
+    ports:
+      - "20000:8080"
+    restart: always
+
+  otl:
+    container_name: OTL
+    build:
+      context: Problem
+      args:
+        IMAGE: ubuntu:18.04
+        USER: OTL
+        EXEC: OTL
+    ports:
+      - "20001:8080"
+    restart: always
+
+  matryoshka:
+    container_name: Matryoshka
+    build:
+      context: Problem
+      args:
+        IMAGE: ubuntu:18.04
+        USER: Matryoshka
+        EXEC: Matryoshka
+    ports:
+      - "20002:8080"
+    restart: always
+
+  who_are_you:
+    container_name: Who_are_you
+    build:
+      context: Problem
+      args:
+        IMAGE: ubuntu:18.04
+        EXEC: Who_are_you
+        USER: Who_are_you
+    ports:
+      - "20003:8080"
+    restart: always
