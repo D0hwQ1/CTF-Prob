@@ -47,3 +47,17 @@ services:
     ports:
       - "20003:8080"
     restart: always
+
+
+  mustard:
+    container_name: mustard
+    build:
+      context: Problem
+      dockerfile: Dockerfile_py
+      args:
+        IMAGE: ubuntu:18.04
+        EXEC: mustard.py
+        USER: mustard
+    ports:
+      - "20004:8080"
+    restart: always

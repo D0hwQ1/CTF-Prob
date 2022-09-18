@@ -10,7 +10,7 @@ RUN dpkg --add-architecture i386 && \
     sed -i 's/security.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list
 RUN apt update; apt upgrade -y; \
     apt install -y libc6:i386 libncurses5:i386 libstdc++6:i386 socat python3 python3-pip; \
-    pip3 install PyCryptodomex
+    pip3 install PyCryptodomex pycryptodome
 
 RUN adduser --no-create-home --disabled-login --force-badname --gecos '' -- "$USER"
 ADD ./$USER/$EXEC /home/$USER/$EXEC
@@ -21,7 +21,9 @@ WORKDIR /home/$USER
 RUN chown -R root:$USER /home/$USER && \
     chmod -R 750 /home/$USER
 
-RUN echo "socat TCP-LISTEN:8080,reuseaddr,fork EXEC:/home/$EXEC/$EXEC,nofork,stderr,setsid,su=$EXEC" > /start.sh; chmod 750 /start.sh 
-RUN cat /start.sh
+RUN echo "python3 /home/$USER/$EXEC" > /prob.sh; \
+    chmod 755 /prob.sh
+
+RUN echo "socat TCP-LISTEN:8080,reuseaddr,fork EXEC:/prob.sh,nofork,stderr,setsid,su=$USER" > /start.sh; chmod 750 /start.sh 
 
 CMD ["sh", "/start.sh"]
